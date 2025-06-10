@@ -40,6 +40,32 @@ async function searchVideos(query) {
     }
 }
 
+// Fetch trending (most popular) videos for homepage
+async function fetchTrendingVideos() {
+    try {
+        showLoading();
+        const params = new URLSearchParams({
+            part: 'snippet',
+            chart: 'mostPopular',
+            maxResults: 20,
+            regionCode: 'US',
+            key: config.apiKey
+        });
+        const response = await fetch(`${config.endpoints.videos}?${params}`);
+        if (!response.ok) throw new Error('Failed to fetch trending videos');
+        const data = await response.json();
+        if (data.items?.length > 0) {
+            renderVideos(data.items, true); // true = trending
+        } else {
+            showNoResults();
+        }
+    } catch (error) {
+        showError(error.message);
+    } finally {
+        hideLoading();
+    }
+}
+
 // UI Functions
 function showLoading() {
     loadingSpinner.classList.remove('hidden');
@@ -64,35 +90,46 @@ function showNoResults() {
     videoGrid.classList.add('hidden');
 }
 
-function renderVideos(videos) {
-    videoGrid.innerHTML = videos.map(video => `
-        <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer"
-             onclick="openVideoModal('${video.id.videoId}')">
+function renderVideos(videos, isTrending = false) {
+    videoGrid.innerHTML = videos.map(video => {
+        const videoId = isTrending ? video.id : video.id.videoId;
+        const snippet = video.snippet;
+        return `
+        <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer video-card"
+             data-video-id="${videoId}">
             <div class="relative pb-[56.25%]">
-                <img src="${video.snippet.thumbnails.high.url}" 
-                     alt="${video.snippet.title}"
+                <img src="${snippet.thumbnails.high.url}" 
+                     alt="${snippet.title}"
                      class="absolute inset-0 w-full h-full object-cover rounded-t-lg">
                 <span class="absolute bottom-1 right-1 bg-black bg-opacity-80 text-white text-sm px-2 py-1 rounded">
-                    ${video.snippet.liveBroadcastContent === 'live' ? 'LIVE' : ''}
+                    ${snippet.liveBroadcastContent === 'live' ? 'LIVE' : ''}
                 </span>
             </div>
             <div class="p-3">
                 <div class="flex space-x-3">
                     <div class="flex-1">
                         <h3 class="text-base font-medium line-clamp-2">
-                            ${video.snippet.title}
+                            ${snippet.title}
                         </h3>
                         <p class="text-sm text-gray-600 mt-1">
-                            ${video.snippet.channelTitle}
+                            ${snippet.channelTitle}
                         </p>
                         <p class="text-sm text-gray-600">
-                            ${new Date(video.snippet.publishTime).toLocaleDateString()}
+                            ${new Date(snippet.publishedAt || snippet.publishTime).toLocaleDateString()}
                         </p>
                     </div>
                 </div>
             </div>
         </div>
-    `).join('');
+        `;
+    }).join('');
+    // Attach click event listeners to video cards
+    document.querySelectorAll('.video-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const videoId = card.getAttribute('data-video-id');
+            openVideoModal(videoId);
+        });
+    });
 }
 
 // Video Modal Functions
@@ -142,5 +179,5 @@ closeModal?.addEventListener('click', closeVideoModal);
 
 // Initialize with trending videos
 window.addEventListener('DOMContentLoaded', () => {
-    searchVideos('trending');
+    fetchTrendingVideos();
 });
