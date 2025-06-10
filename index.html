@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Clone</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="bg-gray-100 font-sans">
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+        <div class="container mx-auto px-4 py-2 flex items-center justify-between">
+            <!-- Logo and Menu -->
+            <div class="flex items-center space-x-4">
+                <button class="text-gray-600 hover:text-gray-900">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <a href="/" class="flex items-center space-x-2">
+                    <i class="fab fa-youtube text-red-600 text-2xl"></i>
+                    <span class="text-xl font-semibold">YouTube</span>
+                </a>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-2xl mx-4">
+                <div class="relative flex items-center">
+                    <input type="text" id="searchInput" placeholder="Search"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:border-blue-500">
+                    <button id="searchButton"
+                        class="absolute right-0 h-full px-6 bg-gray-100 hover:bg-gray-200 rounded-r-full">
+                        <i class="fas fa-search text-gray-600"></i>
+                    </button>
+                </div>
+                <div id="searchSuggestions"
+                    class="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg hidden"></div>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-gray-600 hover:text-gray-900">
+                    <i class="fas fa-home text-xl"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-gray-900">
+                    <i class="fas fa-fire text-xl"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-gray-900">
+                    <i class="fas fa-bell text-xl"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-gray-900">
+                    <i class="fas fa-user-circle text-xl"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="fixed left-0 top-14 h-full w-64 bg-white border-r border-gray-200 overflow-y-auto">
+        <div class="p-4">
+            <!-- Main Navigation -->
+            <div class="space-y-1">
+                <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-home text-gray-700 w-6"></i>
+                    <span class="ml-4 text-gray-800">Home</span>
+                </a>
+                <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-compass text-gray-700 w-6"></i>
+                    <span class="ml-4 text-gray-800">Explore</span>
+                </a>
+                <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-play-circle text-gray-700 w-6"></i>
+                    <span class="ml-4 text-gray-800">Shorts</span>
+                </a>
+                <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-folder text-gray-700 w-6"></i>
+                    <span class="ml-4 text-gray-800">Subscriptions</span>
+                </a>
+            </div>
+
+            <hr class="my-4 border-gray-200">
+
+            <!-- Library Section -->
+            <div class="space-y-1">
+                <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-book text-gray-700 w-6"></i>
+                    <span class="ml-4 text-gray-800">Library</span>
+                </a>
+                <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-history text-gray-700 w-6"></i>
+                    <span class="ml-4 text-gray-800">History</span>
+                </a>
+                <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-clock text-gray-700 w-6"></i>
+                    <span class="ml-4 text-gray-800">Watch Later</span>
+                </a>
+                <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-thumbs-up text-gray-700 w-6"></i>
+                    <span class="ml-4 text-gray-800">Liked Videos</span>
+                </a>
+            </div>
+
+            <hr class="my-4 border-gray-200">
+
+            <!-- Subscriptions Section -->
+            <div class="space-y-1">
+                <h3 class="px-2 text-sm font-semibold text-gray-500">Subscriptions</h3>
+                <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100">
+                    <img src="https://i.pravatar.cc/32?img=1" alt="Channel" class="w-6 h-6 rounded-full">
+                    <span class="ml-4 text-gray-800">Channel 1</span>
+                </a>
+                <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100">
+                    <img src="https://i.pravatar.cc/32?img=2" alt="Channel" class="w-6 h-6 rounded-full">
+                    <span class="ml-4 text-gray-800">Channel 2</span>
+                </a>
+                <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100">
+                    <img src="https://i.pravatar.cc/32?img=3" alt="Channel" class="w-6 h-6 rounded-full">
+                    <span class="ml-4 text-gray-800">Channel 3</span>
+                </a>
+            </div>
+
+            <hr class="my-4 border-gray-200">
+
+            <!-- Explore Section -->
+            <div class="space-y-1">
+                <h3 class="px-2 text-sm font-semibold text-gray-500">Explore</h3>
+                <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-fire text-gray-700 w-6"></i>
+                    <span class="ml-4 text-gray-800">Trending</span>
+                </a>
+                <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-music text-gray-700 w-6"></i>
+                    <span class="ml-4 text-gray-800">Music</span>
+                </a>
+                <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-gamepad text-gray-700 w-6"></i>
+                    <span class="ml-4 text-gray-800">Gaming</span>
+                </a>
+                <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-newspaper text-gray-700 w-6"></i>
+                    <span class="ml-4 text-gray-800">News</span>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 pt-14 min-h-screen bg-gray-50">
+        <div class="container mx-auto px-4 py-8">
+            <!-- Error Message -->
+            <div id="errorMessage"
+                class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+                role="alert">
+                <span class="block sm:inline"></span>
+                <button class="absolute top-0 bottom-0 right-0 px-4 py-3"
+                    onclick="this.parentElement.classList.add('hidden')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- No Results Message -->
+            <div id="noResults" class="hidden text-center py-8 text-gray-600">
+                No videos found. Try a different search term.
+            </div>
+
+            <!-- Video Grid -->
+            <div id="videoGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Video cards will be dynamically inserted here -->
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="hidden flex justify-center items-center py-8">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Video Player Modal -->
+    <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-75 hidden z-50">
+        <div class="container mx-auto px-4 h-full flex items-center justify-center">
+            <div class="relative w-full max-w-4xl">
+                <button id="closeModal" class="absolute -top-10 right-0 text-white hover:text-gray-300">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+                <div id="videoPlayer" class="aspect-video w-full"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="config.js"></script>
+    <script type="module" src="app.js"></script>
+</body>
+
+</html>
