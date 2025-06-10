@@ -1,27 +1,10 @@
 {
     "name": "youtube-clone",
     "version": 2,
-    "builds": [
-        {
-            "src": "**/*",
-            "use": "@vercel/static"
-        }
-    ],
-    "routes": [
-        {
-            "handle": "filesystem"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/index.html"
-        }
-    ],
     "env": {
         "YOUTUBE_API_KEY": "@youtube_api_key"
     },
-    "build": {
-        "env": {
-            "YOUTUBE_API_KEY": "@youtube_api_key"
-        }
+    "buildEnv": {
+        "YOUTUBE_API_KEY": "@youtube_api_key"
     }
 }
