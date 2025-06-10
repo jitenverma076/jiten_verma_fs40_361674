@@ -1,6 +1,6 @@
 // Configuration file for API keys
 const config = {
-    YOUTUBE_API_KEY: process.env.YOUTUBE_API_KEY || window.ENV_YOUTUBE_API_KEY || ''
+    YOUTUBE_API_KEY: 'AIzaSyDEAOo1SpxKOZmZqALp9tAJdbVGjgq-3nA'
 };
 
 // Debug log to check if config is loaded
