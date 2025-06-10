@@ -3,8 +3,5 @@
     "version": 2,
     "env": {
         "YOUTUBE_API_KEY": "@youtube_api_key"
-    },
-    "buildEnv": {
-        "YOUTUBE_API_KEY": "@youtube_api_key"
     }
 }
